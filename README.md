@@ -253,6 +253,12 @@ Tamamlanan aşamalar:
 
 ---
 
+## Demo Video
+
+[Demo videoyu izlemek için tıklayın](https://github.com/BahadirEmek/Sahte_Haber_Tespit/releases/tag/1.0)
+
+---
+
 ## Geliştirici
 
 **Mustafa Bahadır Emek**  
