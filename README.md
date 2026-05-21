@@ -2,7 +2,7 @@
 
 Bu projede haber metinlerini analiz ederek bir haberin **Fake News** veya **Real News** olarak sınıflandırılmasını sağlayan bir makine öğrenmesi uygulaması geliştirdim.
 
-Projede temel olarak doğal dil işleme ve makine öğrenmesi yöntemlerini kullandım. Kullanıcıdan alınan haber metni önce temizleniyor, daha sonra TF-IDF yöntemi ile sayısal hale getiriliyor ve eğitilmiş Logistic Regression modeli ile tahmin yapılıyor. Sonuçlar Streamlit ile hazırladığım web arayüzü üzerinden gösteriliyor.
+Projede doğal dil işleme ve makine öğrenmesi yöntemlerini kullandım. Kullanıcıdan alınan haber metni önce temizleniyor, ardından TF-IDF yöntemiyle sayısal hale getiriliyor ve eğitilmiş Logistic Regression modeli ile tahmin yapılıyor. Sonuçlar Streamlit ile hazırladığım web arayüzü üzerinden gösteriliyor.
 
 Bu sistem haberin doğruluğunu internetten kontrol etmiyor. Model, eğitim verisinde gördüğü kelime kullanımları ve metin örüntülerine göre tahmin üretiyor. Bu yüzden sonuçları kesin doğruluk kontrolü olarak değil, makine öğrenmesi tabanlı bir sınıflandırma sonucu olarak değerlendirmek gerekir.
 
@@ -14,7 +14,7 @@ Bu projedeki amacım, sahte ve gerçek haberleri metin üzerinden ayırt etmeye 
 
 Günümüzde sosyal medya ve internet üzerinden çok fazla haber içeriği paylaşılıyor. Bu haberlerin bir kısmı doğru kaynaklara dayanırken, bazıları eksik, abartılı veya tamamen yanlış bilgiler içerebiliyor. Özellikle doğrulanmamış haberlerin hızlı yayılması, kullanıcıların yanlış bilgiye maruz kalmasına neden olabiliyor.
 
-Bu problemden yola çıkarak, haber metinlerini analiz eden ve bunları **Fake News** veya **Real News** olarak sınıflandıran bir sistem geliştirdim.
+Bu problemden yola çıkarak, haber metinlerini analiz eden ve bunları **Fake News** veya **Real News** olarak sınıflandıran bir makine öğrenmesi sistemi geliştirdim.
 
 ---
 
@@ -24,111 +24,122 @@ Projede **Fake and Real News Dataset** veri setini kullandım.
 
 Veri seti iki ana dosyadan oluşuyor:
 
-```text
-Fake.csv
-True.csv
 ```
-
-Ben bu dosyalardan `Fake.csv` içindeki haberleri sahte haber, `True.csv` içindeki haberleri ise gerçek haber olarak kullandım.
-
-Etiketleme yapısı şu şekilde:
-
-```text
-0 → Fake News
-1 → Real News
-```
-
-Veri seti dosyalarının proje içinde şu klasörde olması gerekiyor:
-
-```text
 data/
 ├── Fake.csv
 └── True.csv
 ```
 
-Veri seti dosyaları büyük olabildiği için GitHub reposuna eklenmeyebilir. Projeyi yeniden çalıştırmak isteyen kişinin bu dosyaları indirip `data/` klasörüne koyması gerekir.
+`Fake.csv` içindeki haberler sahte haber, `True.csv` içindeki haberler gerçek haber olarak etiketlendi.
 
----
+Etiketleme yapısı:
 
-## Kullandığım Yöntem
+```
+0 → Fake News
+1 → Real News
+```
 
-Projede haber metinlerini sınıflandırmak için şu adımları izledim:
-
-1. Fake ve gerçek haber verilerini okudum.
-2. Haberleri `Fake News` ve `Real News` olarak etiketledim.
-3. Haber başlığı ve haber metnini birleştirdim.
-4. Metinleri ön işleme aşamasından geçirdim.
-5. TF-IDF yöntemi ile metinleri sayısal hale getirdim.
-6. Logistic Regression modeli ile eğitim yaptım.
-7. Modelin başarısını accuracy, precision, recall ve F1-score metrikleri ile kontrol ettim.
-8. Eğitilen modeli kaydettim.
-9. Streamlit arayüzü ile kullanıcıdan haber metni alıp tahmin sonucunu gösterdim.
-
----
-
-## Metin Ön İşleme
-
-Modelin daha düzgün çalışması için haber metinlerini eğitimden önce temizledim.
-
-Uyguladığım temel işlemler:
-
-- Küçük harfe çevirme
-- URL temizleme
-- HTML etiketlerini temizleme
-- Noktalama işaretlerini kaldırma
-- Sayısal ifadeleri temizleme
-- Fazla boşlukları düzenleme
-- Stopword temizleme
-- Boş metin kontrolü
-
-Bu işlemler `src/preprocessing.py` dosyasında yer alıyor.
+Veri seti dosyaları büyük olduğu için GitHub reposuna eklenmedi. Projeyi yeniden çalıştırmak isteyen kişinin bu dosyaları indirip `data/` klasörüne koyması gerekir.
 
 ---
 
 ## Kullanılan Teknolojiler
 
-Projede kullandığım teknolojiler:
-
- Teknoloji  Kullanım Amacı 
-
- Python  Projenin ana programlama dili 
- pandas  Veri setini okuma ve düzenleme 
- NumPy  Sayısal işlemler 
- scikit-learn  Model eğitimi ve metrik hesaplama 
- NLTK  Metin işleme adımları 
- Streamlit  Web arayüzü 
- joblib  Eğitilen modeli kaydetme 
- matplotlib  Grafik ve görsel çıktı oluşturma 
- GitHub  Proje takibi ve teslim 
+| Teknoloji | Sürüm | Kullanım Amacı |
+|---|---|---|
+| Python | 3.10+ | Projenin ana programlama dili |
+| pandas | — | Veri setini okuma ve düzenleme |
+| NumPy | — | Sayısal matris işlemleri |
+| scikit-learn | — | TF-IDF vektörizasyonu, Logistic Regression modeli ve metrik hesaplama |
+| NLTK | — | İngilizce stopword listesi ile metin ön işleme |
+| joblib | — | Eğitilen model ve vektörizerin diske kaydedilmesi ve yüklenmesi |
+| matplotlib | — | Confusion Matrix grafiğinin oluşturulması ve kaydedilmesi |
+| Streamlit | — | Kullanıcı arayüzü (web tabanlı) |
+| GitHub | — | Proje sürüm kontrolü ve teslim |
 
 ---
 
-## Model Yapısı
+## Sistem Mimarisi
 
-Projede şu modeli kullandım:
-
-```text
-TF-IDF Vectorizer + Logistic Regression
+```
+Kullanıcı Metni
+      │
+      ▼
+┌─────────────────┐
+│  Ön İşleme      │  preprocessing.py
+│  (temizleme,    │  • küçük harf
+│   stopword)     │  • URL / HTML / noktalama temizleme
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  TF-IDF         │  scikit-learn TfidfVectorizer
+│  Vektörizasyon  │  max_features=10000, ngram=(1,2)
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  Logistic       │  scikit-learn LogisticRegression
+│  Regression     │  max_iter=1000
+└────────┬────────┘
+         │
+         ▼
+  Fake News / Real News + Güven Skoru
 ```
 
-TF-IDF yöntemi, haber metinlerini sayısal vektörlere dönüştürmek için kullanıldı. Logistic Regression modeli ise bu vektörlere göre haberin sahte mi gerçek mi olduğunu tahmin etti.
+---
 
-Bu modeli seçmemin nedeni, metin sınıflandırma problemleri için basit, hızlı ve anlaşılır bir yöntem olmasıdır.
+## Metin Ön İşleme
+
+Modelin daha doğru çalışması için haber metinleri eğitim öncesinde temizlendi.
+
+Uygulanan işlemler:
+
+1. Küçük harfe çevirme
+2. URL temizleme (`https://...`, `www....`)
+3. HTML etiketlerini kaldırma (`<b>`, `<p>` vb.)
+4. Noktalama işaretlerini kaldırma
+5. Sayısal ifadeleri kaldırma
+6. Fazla boşlukları düzenleme
+7. İngilizce stopword temizleme (NLTK, fallback liste)
+8. Boş metin kontrolü
+
+Bu işlemler `src/preprocessing.py` dosyasında `TextPreprocessor` sınıfı içinde yer alıyor.
 
 ---
 
-## Model Performansı
+## Model Eğitimi ve Değerlendirme
 
-Model eğitildikten sonra başarısını şu metriklerle değerlendirdim:
+Eğitim süreci şu adımlardan oluşuyor:
 
-- Accuracy
-- Precision
-- Recall
-- F1-score
-- Classification Report
-- Confusion Matrix
+1. `Fake.csv` ve `True.csv` dosyaları okunarak birleştirildi
+2. Haber başlığı (`title`) ve haber metni (`text`) birleştirilerek `content` sütunu oluşturuldu
+3. Metinler `TextPreprocessor` ile temizlendi
+4. Veri seti %80 eğitim, %20 test olarak ayrıldı (stratified split)
+5. `TfidfVectorizer` eğitim verisi üzerinde fit edildi
+6. `LogisticRegression` modeli eğitildi
+7. Model performansı test seti üzerinde değerlendirildi
+8. Model ve vektörizer `models/fake_news_model.joblib` olarak kaydedildi
 
-Model eğitiminden sonra terminalde performans sonuçları görüntüleniyor. Böylece modelin sahte ve gerçek haberleri ayırt etme başarısını kontrol edebildim.
+Değerlendirme metrikleri:
+
+- **Accuracy** — genel doğruluk oranı
+- **Precision** — sahte haber olarak işaretlenenlerin ne kadarı gerçekten sahteydi
+- **Recall** — gerçek sahte haberlerin ne kadarı yakalandı
+- **F1-Score** — precision ve recall'ın harmonik ortalaması
+- **Confusion Matrix** — sınıf bazında doğru/yanlış tahmin dağılımı
+
+---
+
+## Tahmin Aşaması
+
+Kullanıcıdan alınan metin şu adımlardan geçiyor:
+
+1. `TextPreprocessor.clean_text()` ile temizleniyor
+2. Kaydedilmiş `TfidfVectorizer` ile vektörize ediliyor
+3. `LogisticRegression.predict()` ile tahmin yapılıyor
+4. `predict_proba()` ile güven skoru hesaplanıyor
+5. TF-IDF ağırlıkları ve model katsayıları kullanılarak en etkili 10 kelime çıkarılıyor
 
 ---
 
@@ -136,71 +147,109 @@ Model eğitiminden sonra terminalde performans sonuçları görüntüleniyor. B�
 
 ### `src/preprocessing.py`
 
-Bu dosyada metin temizleme işlemleri bulunuyor. Hem model eğitimi sırasında hem de kullanıcıdan gelen yeni haber metinleri için bu dosyadaki temizleme işlemleri kullanılıyor.
+Metin temizleme işlemleri. Hem model eğitimi sırasında hem de kullanıcıdan gelen yeni metinler için bu dosyadaki `TextPreprocessor` sınıfı kullanılıyor.
 
 ### `src/train_model.py`
 
-Bu dosya model eğitim sürecini içeriyor. `Fake.csv` ve `True.csv` dosyalarını okuyup veriyi hazırlıyor, metinleri temizliyor, TF-IDF dönüşümü yapıyor ve Logistic Regression modelini eğitiyor.
+Model eğitim süreci. `Fake.csv` ve `True.csv` dosyalarını okuyup veriyi hazırlar, TF-IDF dönüşümü yapar, Logistic Regression modelini eğitir, metrikleri `models/metrics.json` olarak ve Confusion Matrix'i `screenshots/confusion_matrix.png` olarak kaydeder.
+
+Çalıştırmak için:
+```bash
+python src/train_model.py
+```
 
 ### `src/predict.py`
 
-Bu dosya eğitilmiş modeli kullanarak yeni haber metinleri için tahmin yapıyor. Kullanıcıdan gelen metni temizliyor, modele gönderiyor ve sonucu döndürüyor.
+Eğitilmiş modeli kullanarak yeni haber metinleri için tahmin yapıyor. Metni temizliyor, modele gönderiyor, güven skoru ve önemli kelimeleri hesaplayıp döndürüyor.
 
 ### `src/app.py`
 
-Bu dosyada Streamlit arayüzü bulunuyor. Kullanıcı buradan haber metni girebiliyor, `.txt` dosyası yükleyebiliyor, örnek haberleri seçebiliyor ve tahmin sonucunu görebiliyor.
+Streamlit web arayüzü. İki sekme içeriyor:
+- **Metin Analizi** — haber metni girişi, örnek haberler, `.txt` dosyası yükleme ve tahmin sonucu
+- **Model Performansı** — accuracy/precision/recall/F1 metrikleri ve Confusion Matrix
+
+Çalıştırmak için:
+```bash
+streamlit run src/app.py
+```
+
+---
+
+## Proje Klasör Yapısı
+
+```
+Sahte_Haber_Tespit/
+├── data/
+│   ├── Fake.csv          ← veri seti (repoya eklenmedi)
+│   └── True.csv          ← veri seti (repoya eklenmedi)
+├── examples/
+│   ├── fake_1.txt        ← örnek sahte haber metni
+│   ├── fake_2.txt
+│   ├── fake_3.txt
+│   ├── real_1.txt        ← örnek gerçek haber metni
+│   ├── real_2.txt
+│   └── real_3.txt
+├── models/
+│   ├── fake_news_model.joblib   ← eğitilmiş model
+│   └── metrics.json             ← performans metrikleri
+├── screenshots/
+│   └── confusion_matrix.png
+├── src/
+│   ├── preprocessing.py
+│   ├── train_model.py
+│   ├── predict.py
+│   └── app.py
+├── requirements.txt
+└── README.md
+```
 
 ---
 
 ## Karşılaştığım Durumlar
 
-Projeyi geliştirirken fark ettiğim en önemli noktalardan biri, modelin İngilizce veri setiyle eğitildiği için Türkçe haberlerde her zaman güvenilir sonuç vermemesiydi.
+Projeyi geliştirirken fark ettiğim en önemli nokta, modelin İngilizce veri setiyle eğitildiği için Türkçe haberlerde güvenilir sonuç vermemesiydi.
 
-İlk testlerde Türkçe doğru haber örneklerinin bazen sahte haber olarak sınıflandırıldığını gördüm. Bunun sebebinin modelin Türkçe metinlerle eğitilmemiş olması olduğunu değerlendirdim. Bu nedenle uygulamadaki güvenilir testleri İngilizce haber örnekleri üzerinden yaptım.
+İlk testlerde Türkçe doğru haber örneklerinin bazen sahte haber olarak sınıflandırıldığını gördüm. Bunun sebebi modelin Türkçe metinlerle hiç eğitilmemiş olmasıdır; Türkçe kelimeler model için anlamsız gürültüye dönüşüyor. Bu nedenle güvenilir testleri İngilizce haber örnekleri üzerinden yaptım ve arayüze bu konuda kullanıcıyı bilgilendiren bir uyarı ekledim.
 
-Bu durum bana veri seti dili ile test edilen metnin dilinin uyumlu olmasının önemli olduğunu gösterdi.
+Bu durum bana veri seti dili ile test edilen metnin dilinin uyumlu olmasının ne kadar kritik olduğunu gösterdi.
 
 ---
 
 ## Önemli Not
 
-Bu model İngilizce haber veri setiyle eğitilmiştir. Bu nedenle İngilizce haber metinlerinde daha sağlıklı sonuç verir.
+Bu model İngilizce haber veri setiyle eğitilmiştir. İngilizce haber metinlerinde güvenilir sonuç verir.
 
-Türkçe haber metinleriyle yapılan testler sadece demo amaçlı değerlendirilmelidir.
+Türkçe haber metinleriyle yapılan testler yalnızca demo amaçlı değerlendirilmelidir.
 
-Model haberin doğruluğunu internette araştırmaz. Sadece eğitim verisinden öğrendiği kelime kullanımları ve metin örüntülerine göre tahmin yapar.
+Model haberin doğruluğunu internette araştırmaz. Sadece eğitim verisinden öğrendiği kelime kullanımları ve metin örüntülerine göre sınıflandırma yapar.
 
 ---
 
 ## Geliştirilebilecek Yönler
 
-Bu proje daha sonra şu yönlerden geliştirilebilir:
-
-- Türkçe haber veri seti eklenebilir.
-- Model Türkçe haberler üzerinde yeniden eğitilebilir.
-- Daha büyük veri setleri kullanılabilir.
-- BERT veya benzeri transformer tabanlı modeller denenebilir.
-- Arayüz daha gelişmiş hale getirilebilir.
-- Haber kaynağı analizi eklenebilir.
-- Girilen haberin internetteki kaynaklarla karşılaştırılması sağlanabilir.
-- Farklı makine öğrenmesi modelleri karşılaştırılabilir.
+- Türkçe haber veri seti ile yeniden eğitim yapılabilir
+- BERT veya benzeri transformer tabanlı dil modelleri denenebilir
+- Farklı makine öğrenmesi modelleri (Random Forest, SVM, XGBoost) karşılaştırılabilir
+- Daha büyük ve dengeli veri setleri kullanılabilir
+- Haber kaynağı ve yayın tarihi gibi meta veriler modele dahil edilebilir
+- Girilen haberin internetteki kaynaklarla gerçek zamanlı karşılaştırılması sağlanabilir
 
 ---
 
 ## Proje Durumu
 
-Bu projede şu aşamaları tamamladım:
+Tamamlanan aşamalar:
 
-- GitHub reposunu oluşturdum.
-- Proposal dokümanını hazırladım.
-- Proje klasör yapısını oluşturdum.
-- Veri setini projeye uygun şekilde kullandım.
-- Metin ön işleme adımlarını hazırladım.
-- TF-IDF ve Logistic Regression ile modeli eğittim.
-- Streamlit arayüzünü oluşturdum.
-- Sahte ve gerçek haber örnekleriyle test yaptım.
-- Ekran görüntülerini aldım.
-- Teslim için gerekli dosyaları düzenledim.
+- [x] GitHub reposu oluşturuldu
+- [x] Proje klasör yapısı oluşturuldu
+- [x] Veri seti projeye uygun şekilde kullanıldı
+- [x] Metin ön işleme adımları hazırlandı
+- [x] TF-IDF ve Logistic Regression ile model eğitimi yapıldı
+- [x] Model performansı metriklerle değerlendirildi
+- [x] Streamlit arayüzü oluşturuldu ve sekme tabanlı yapıya geçildi
+- [x] Örnek haber metinleri eklendi (İngilizce fake/real)
+- [x] Ekran görüntüleri alındı
+- [x] Teslim için gerekli dosyalar düzenlendi
 
 ---
 
@@ -209,8 +258,7 @@ Bu projede şu aşamaları tamamladım:
 **Mustafa Bahadır Emek**  
 Bilişim Sistemleri ve Teknolojileri
 
-GitHub repo linki:
-
-```text
+GitHub:
+```
 https://github.com/BahadirEmek/Sahte_Haber_Tespit
 ```

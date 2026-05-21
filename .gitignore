@@ -5,3 +5,4 @@ models/*.joblib
 data/*.csv
 .DS_Store
 .env
+video/

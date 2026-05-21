@@ -27,6 +27,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 
+_LABEL_FAKE = "Fake News"
+_LABEL_REAL = "Real News"
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 MODEL_DIR = PROJECT_ROOT / "models"
@@ -147,14 +150,14 @@ class FakeNewsModelTrainer:
         report_dict = classification_report(
             self.y_test,
             y_pred,
-            target_names=["Fake News", "Real News"],
+            target_names=[_LABEL_FAKE, _LABEL_REAL],
             output_dict=True,
             zero_division=0,
         )
         report_text = classification_report(
             self.y_test,
             y_pred,
-            target_names=["Fake News", "Real News"],
+            target_names=[_LABEL_FAKE, _LABEL_REAL],
             zero_division=0,
         )
 
@@ -218,7 +221,7 @@ class FakeNewsModelTrainer:
         matrix = confusion_matrix(self.y_test, y_pred, labels=[0, 1])
         display = ConfusionMatrixDisplay(
             confusion_matrix=matrix,
-            display_labels=["Fake News", "Real News"],
+            display_labels=[_LABEL_FAKE, _LABEL_REAL],
         )
         display.plot(cmap="Blues", values_format="d")
         plt.title("Confusion Matrix")
@@ -240,59 +243,6 @@ class FakeNewsModelTrainer:
         print("\nClassification Report")
         print("-" * 40)
         print(report_text)
-
-
-def load_dataset() -> pd.DataFrame:
-    """Backward-compatible helper that loads and prepares the dataset."""
-    trainer = FakeNewsModelTrainer()
-    trainer.load_data()
-    return trainer.prepare_dataset()
-
-
-def split_dataset(data: pd.DataFrame):
-    """Backward-compatible helper that splits a prepared dataset."""
-    trainer = FakeNewsModelTrainer()
-    trainer.data = data
-    return trainer.split_data()
-
-
-def train_classifier(x_train, y_train) -> tuple[LogisticRegression, TfidfVectorizer]:
-    """Backward-compatible helper that trains the classifier."""
-    trainer = FakeNewsModelTrainer()
-    trainer.x_train = x_train
-    trainer.y_train = y_train
-    return trainer.train()
-
-
-def evaluate_model(model: LogisticRegression, vectorizer: TfidfVectorizer, x_test, y_test) -> None:
-    """Backward-compatible helper that prints model metrics."""
-    x_test_vectorized = vectorizer.transform(x_test)
-    y_pred = model.predict(x_test_vectorized)
-    precision, recall, f1_score, _ = precision_recall_fscore_support(
-        y_test,
-        y_pred,
-        average="binary",
-        zero_division=0,
-    )
-    print(f"Accuracy : {accuracy_score(y_test, y_pred):.4f}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall   : {recall:.4f}")
-    print(f"F1-score : {f1_score:.4f}")
-    print(
-        classification_report(
-            y_test,
-            y_pred,
-            target_names=["Fake News", "Real News"],
-            zero_division=0,
-        )
-    )
-
-
-def save_artifacts(model: LogisticRegression, vectorizer: TfidfVectorizer) -> None:
-    """Backward-compatible helper that saves model artifacts."""
-    MODEL_DIR.mkdir(parents=True, exist_ok=True)
-    joblib.dump({"model": model, "vectorizer": vectorizer}, MODEL_PATH)
-    print(f"Model dosyasi kaydedildi: {MODEL_PATH}")
 
 
 def main() -> None:

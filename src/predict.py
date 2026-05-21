@@ -92,13 +92,6 @@ class FakeNewsPredictor:
         return float(probabilities[class_index] * 100)
 
 
-def load_artifacts() -> dict:
-    """Backward-compatible helper that loads trained model artifacts."""
-    predictor = FakeNewsPredictor()
-    predictor.load_model()
-    return {"model": predictor.model, "vectorizer": predictor.vectorizer}
-
-
 def predict_news(text: str) -> dict:
     """Predict whether a news text is fake or real using ``FakeNewsPredictor``."""
     predictor = FakeNewsPredictor()
